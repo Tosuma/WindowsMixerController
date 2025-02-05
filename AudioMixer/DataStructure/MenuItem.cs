@@ -1,13 +1,8 @@
 ﻿using AudioMixer.Helpers;
 using NAudio.CoreAudioApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioMixer.DataStructure;
-internal class MenuItem
+public class MenuItem
 {
     public string Name { get; set; }
     private float _volume
@@ -30,16 +25,22 @@ internal class MenuItem
         FilePath = AudioSessionHelper.GetProcessFilePath(sessionControl);
     }
 
-    public void DecreaseVolume(float step = 5)
-        => _volume -= _volume % step == 0
+    public void DecreaseVolume(int step = 5)
+    {
+        int tempVol = (int) _volume % step; 
+        _volume -= tempVol % step == 0
             ? step
-            : _volume % step;
+            : tempVol;
+    }
         
 
-    public void IncreaseVolume(float step = 5)
-        => _volume += _volume % step == 0
+    public void IncreaseVolume(int step = 5)
+    {
+        int tempVol = (int) _volume % step;
+        _volume += tempVol == 0
             ? step
-            : step - _volume % step;
+            : step - tempVol;
+    }
 
     public void SetVolume(float volume) => _volume = volume;
 

@@ -14,7 +14,7 @@ using System.Xml.Linq;
 namespace AudioMixer.Helpers;
 internal static class GroupHelper
 {
-    internal static void ApplyGroupConfigs(List<MenuItem> processes, Dictionary<string, GroupInfo> groups)
+    internal static void ApplyGroupConfigs(ProcessList processes, GroupDictionary groups)
     {
         foreach (var (_, groupInfo) in groups)
         {
@@ -28,9 +28,9 @@ internal static class GroupHelper
         }
     }
 
-    internal static Dictionary<string, GroupInfo> LoadConfiguration(string filePath)
+    internal static GroupDictionary LoadConfiguration(string filePath)
     {
-        var groups = new Dictionary<string, GroupInfo>();
+        var groups = new GroupDictionary();
         if (!File.Exists(filePath))
             return [];
 
@@ -56,7 +56,7 @@ internal static class GroupHelper
         return groups;
     }
 
-    internal static string GetGroupWithSession(this Dictionary<string, GroupInfo> groups, string sessionName)
+    internal static string GetGroupWithSession(this GroupDictionary groups, string sessionName)
     {
         foreach (var (groupName, groupInfo) in groups)
         {
@@ -67,37 +67,37 @@ internal static class GroupHelper
         return string.Empty;
     }
 
-    internal static void CreateGroup(this Dictionary<string, GroupInfo> groups)
+    internal static void CreateGroup(this GroupDictionary groups)
     {
 
     }
 
-    internal static void AddSessionsToGroup(this Dictionary<string, GroupInfo> groups, List<MenuItem> sessions)
+    internal static void AddSessionsToGroup(this GroupDictionary groups, ProcessList sessions)
     {
 
     }
 
-    internal static void RemoveSessionsFromGroup(this Dictionary<string, GroupInfo> groups, List<MenuItem> sessions)
+    internal static void RemoveSessionsFromGroup(this GroupDictionary groups, ProcessList sessions)
     {
 
     }
 
-    internal static void IncreaseGroupVolume(this Dictionary<string, GroupInfo> groups, float volume)
+    internal static void IncreaseGroupVolume(this GroupDictionary groups, float volume)
     {
 
     }
 
-    internal static void ChangeGroupMute(this Dictionary<string, GroupInfo> groups, bool mute)
+    internal static void ChangeGroupMute(this GroupDictionary groups, bool mute)
     {
 
     }
 
-    internal static void DeleteGroup(this Dictionary<string, GroupInfo> groups, string groupKey)
+    internal static void DeleteGroup(this GroupDictionary groups, string groupKey)
     {
         groups.Remove(groupKey);
     }
 
-    internal static void SaveConfiguration(string v, Dictionary<string, GroupInfo> groups)
+    internal static void SaveConfiguration(string v, GroupDictionary groups)
     {
 
     }

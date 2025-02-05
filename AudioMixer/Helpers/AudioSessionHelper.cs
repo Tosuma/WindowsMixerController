@@ -6,9 +6,9 @@ namespace AudioMixer.Helpers;
 
 internal static class AudioSessionHelper
 {
-    public static List<MenuItem> GetProcessesForMenu()
+    public static ProcessList GetProcessesForMenu()
     {
-        var processes = new List<MenuItem>();
+        var processes = new ProcessList();
 
         var enumerator = new MMDeviceEnumerator();
         var device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
@@ -45,6 +45,7 @@ internal static class AudioSessionHelper
         {
             int pid = (int)session.GetProcessID;
             var proc = Process.GetProcessById(pid);
+            Console.WriteLine($"process : id  => '{proc.StartTime}' : {pid}");
             return proc.ProcessName;
         }
         catch
