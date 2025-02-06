@@ -45,7 +45,6 @@ internal static class AudioSessionHelper
         {
             int pid = (int)session.GetProcessID;
             var proc = Process.GetProcessById(pid);
-            Console.WriteLine($"process : id  => '{proc.StartTime}' : {pid}");
             return proc.ProcessName;
         }
         catch

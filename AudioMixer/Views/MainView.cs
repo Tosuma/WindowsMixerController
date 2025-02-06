@@ -1,5 +1,6 @@
 ﻿using AudioMixer.DataStructure;
 using AudioMixer.Helpers;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 
@@ -26,8 +27,6 @@ internal class MainView : IView
             case ConsoleKey.Escape:
                 return null;
 
-
-
             case ConsoleKey.Enter:
                 return _navigator.EditSessionView(_selectedIndex);
 
@@ -43,8 +42,8 @@ internal class MainView : IView
                 return _navigator.GroupView();
 
             case ConsoleKey.R:
-                _processes = AudioSessionHelper.GetProcessesForMenu();
-                break;
+                _navigator.UpdateProcesses(AudioSessionHelper.GetProcessesForMenu());
+                return _navigator.MainView();
 
             case ConsoleKey.A:
                 GroupHelper.ApplyGroupConfigs(_processes, _groups);
@@ -60,7 +59,19 @@ internal class MainView : IView
 
     public void Render()
     {
-        WriteKeyOptions();
+        KeyBinds keyAndDescription = new()
+        {
+            ["[↑]"] = "Move marker up",
+            ["[↓]"] = "Move marker down",
+            ["[Enter]"] = "Edit",
+            ["[Esc]"] = "Quit",
+            ["[R]"] = "Refresh sessions",
+            ["[G]"] = "Group settings",
+            ["[A]"] = "Apply group configs",
+            ["[S]"] = "Save current group config",
+        };
+
+        RenderHelper.WriteKeyOptions(keyAndDescription, 2);
 
         string processTitle = "Process name";
         int longestSessionTitle = Math.Max(
@@ -86,36 +97,6 @@ internal class MainView : IView
             var inGroup = _groups.GetGroupWithSession(name);
 
             Console.WriteLine($"{marker}{name.PadRight(longestSessionTitle)} | {volume,4:0.##}%  | {muted,-5} | {inGroup.PadRight(longestGroupTitle)} |");
-        }
-    }
-
-    private static void WriteKeyOptions()
-    {
-        Dictionary<string, string> keyAndDescription = new Dictionary<string, string>()
-        {
-            ["[Up]/[Down] Arrow"] = "Move marker op/down",
-            ["[R]"]               = "Refresh sessions",
-            ["[G]"]               = "Group settings",
-            ["[A]"]               = "Apply group configs",
-            ["[S]"]               = "Save current group config",
-            ["[Enter]"]           = "Edit",
-            ["[Esc]"]             = "Quit",
-        };
-
-        int longestTitle = keyAndDescription.Keys.DefaultIfEmpty("").Max(k => k.Length);
-
-        foreach (var (key, description) in keyAndDescription)
-        {
-            Console.Write(new string(' ', longestTitle - key.Length));
-
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
-
-            Console.Write(key);
-
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(" :: " + description);
         }
     }
 }

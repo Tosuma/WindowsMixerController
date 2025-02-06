@@ -1,4 +1,5 @@
 ﻿using AudioMixer.DataStructure;
+using AudioMixer.Helpers;
 
 namespace AudioMixer.Views;
 internal class EditSessionView : IView
@@ -57,6 +58,19 @@ internal class EditSessionView : IView
 
     public void Render()
     {
+        KeyBinds keyAndDescription = new()
+        {
+            ["[↑]"] = "Increase volume",
+            ["[→]"] = "Move marker right",
+            ["[↓]"] = "Lower volume",
+            ["[←]"] = "Move marker left",
+            ["[Enter]"] = "Edit volume or flip mute",
+            ["[Esc]"] = "Exit edit",
+        };
+
+        RenderHelper.WriteKeyOptions(keyAndDescription, 2);
+
+
         string processTitle = "Process name";
         int longestSessionTitle = Math.Max(
             processTitle.Length,
@@ -64,7 +78,7 @@ internal class EditSessionView : IView
                       .DefaultIfEmpty("")
                       .Max(s => s.Length));
 
-        Console.WriteLine("Use Left/Right to switch between Volume and Muted. Esc to return.\n");
+        Console.WriteLine($"+-{new string('-', longestSessionTitle)}-+--------+-------+");
         Console.WriteLine($"| {processTitle.PadRight(longestSessionTitle)} | Volume | Muted |");
         Console.WriteLine($"+-{new string('-', longestSessionTitle)}-+--------+-------+");
 

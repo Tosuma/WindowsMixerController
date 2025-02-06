@@ -8,6 +8,7 @@ public class Program
     static void Main(string[] args)
     {
         Console.CursorVisible = false;
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Black;
 

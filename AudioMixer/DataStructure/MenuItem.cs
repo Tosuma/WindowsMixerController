@@ -28,18 +28,14 @@ public class MenuItem
     public void DecreaseVolume(int step = 5)
     {
         int tempVol = (int) _volume % step; 
-        _volume -= tempVol % step == 0
-            ? step
-            : tempVol;
+        _volume -= tempVol == 0 ? step : tempVol;
     }
         
 
     public void IncreaseVolume(int step = 5)
     {
         int tempVol = (int) _volume % step;
-        _volume += tempVol == 0
-            ? step
-            : step - tempVol;
+        _volume += (int)_volume % step == 0 ? step : step - (int)_volume % step;
     }
 
     public void SetVolume(float volume) => _volume = volume;
