@@ -1,4 +1,5 @@
 ﻿using AudioMixer.DataStructure;
+using AudioMixer.Helpers;
 
 namespace AudioMixer.Views;
 internal class AdjustVolumeView : IView
@@ -47,7 +48,16 @@ internal class AdjustVolumeView : IView
 
     public void Render()
     {
-        Console.WriteLine("Use Left/Right to decrease/increase volume. Esc to cancel changes, Enter to save changes.\n");
+        KeyBinds keyAndDescription = new()
+        {
+            ["[←]"] = "Decrease volume",
+            ["[Enter]"] = "Accept volume",
+            ["[→]"] = "Increase volume",
+            ["[Esc]"] = "Cancel volume",
+        };
+
+        RenderHelper.WriteKeyOptions(keyAndDescription, 2);
+
         string processTitle = "Process name";
         var process = CurrentProcess;
         int longestSessionTitle = Math.Max(
@@ -56,6 +66,7 @@ internal class AdjustVolumeView : IView
                       .DefaultIfEmpty("")
                       .Max(s => s.Length));
 
+        Console.WriteLine($"+-{new string('-', longestSessionTitle)}-+--------+-------+");
         Console.WriteLine($"| {processTitle.PadRight(longestSessionTitle)} | Volume | Muted |");
         Console.WriteLine($"+-{new string('-', longestSessionTitle)}-+--------+-------+");
 

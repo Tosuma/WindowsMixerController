@@ -62,7 +62,7 @@ internal class EditSessionView : IView
         {
             ["[↑]"] = "Increase volume",
             ["[→]"] = "Move marker right",
-            ["[↓]"] = "Lower volume",
+            ["[↓]"] = "Decrease volume",
             ["[←]"] = "Move marker left",
             ["[Enter]"] = "Edit volume or flip mute",
             ["[Esc]"] = "Exit edit",

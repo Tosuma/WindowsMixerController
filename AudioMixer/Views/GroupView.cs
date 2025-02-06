@@ -1,5 +1,6 @@
 ﻿
 using AudioMixer.DataStructure;
+using AudioMixer.Helpers;
 
 namespace AudioMixer.Views;
 
@@ -35,14 +36,39 @@ internal class GroupView : IView
             case ConsoleKey.DownArrow:
                 _selectedIndex = Math.Min(_groups.Count - 1, _selectedIndex + 1);
                 break;
+
+            case ConsoleKey.R:
+                _navigator.UpdateProcesses(AudioSessionHelper.GetProcessesForMenu());
+                return _navigator.GroupView();
+
+            case ConsoleKey.A:
+                GroupHelper.ApplyGroupConfigs(_processes, _groups);
+                break;
+
+            case ConsoleKey.S:
+                GroupHelper.SaveConfiguration("config.json", _groups);
+                break;
         }
         return this;
     }
 
     public void Render()
     {
+        KeyBinds keyAndDescription = new()
+        {
+            ["[↑]"] = "Move marker up",
+            ["[↓]"] = "Move marker down",
+            ["[Enter]"] = "Edit",
+            ["[Esc]"] = "Go back",
+            ["[R]"] = "Refresh sessions",
+            ["[A]"] = "Apply group configs",
+            ["[S]"] = "Save current group config",
+        };
+
+        RenderHelper.WriteKeyOptions(keyAndDescription, 2);
+
+
         int i = 0;
-        Console.WriteLine("Use Up/Down Arrow to select an item. Press Enter to edit, Esc to quit.\n");
         Console.WriteLine($"{"Group name",-15} | Volume | Muted | Num sesssions |");
         foreach (var (groupName, groupInfo) in _groups)
         {
